@@ -4,7 +4,7 @@ describe('Articles using fixtures', () => {
     cy.route('api/articles/recent', 'fixture:articles').as('recent');
     cy.visit('/');
     cy.wait('@recent');
-    cy.get('app-article').should('have.length', 3);
+    cy.get('app-article').should('have.length', 3);;
   });
 
   describe('stubbed tests using fixture keyword and alias', () => {
@@ -21,7 +21,7 @@ describe('Articles using fixtures', () => {
       cy.route('POST', '/api/articles/search', '@articlesJSON').as('articles');
 
       cy.get('input#keyword').type('NgRx{enter}');
-
+    cy.visit('/');
       cy.wait('@articles');
       cy.get('app-article').should('have.length', 3);
     });
@@ -31,8 +31,12 @@ describe('Articles using fixtures', () => {
     // WAIT FOR THE TAGS TO RETURN AND ASSERT THE COUNT
     // BONUS: Run tests using npx cypress run
     // BONUS: Figure out how to capture screenshots manually'
-    it('should filter tags', () => {
-      // write test here
+    it('should wait for tags', () => {
+      cy.server();
+      cy.route('/api/tags').as('tags');
+      cy.visit('/');
+      cy.wait('@tags');
+      cy.get('div.tags').should('have.length', 20) 
     });
   });
 });

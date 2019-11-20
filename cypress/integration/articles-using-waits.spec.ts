@@ -7,6 +7,7 @@ describe('Articles using waits', () => {
     cy.route('/api/tags').as('tags');
     cy.wait('@tags');
 
+    cy.visit('/');
     cy.get('.tags-container input').type('anim');
     cy.get('div.tags').should('have.length', 3);
   });
@@ -20,6 +21,10 @@ describe('Articles using waits', () => {
   // HINT: http://example.cypress.io
   // HINT: https://docs.cypress.io/api/commands/should.html#Value
   it('recents articles should display 25 articles', () => {
-
+    cy.server();
+    cy.route('/api/articles').as('articles');
+    cy.visit('/');
+    cy.wait('@articles')
+    cy.get('app-article').should('have.length', 25);
   });
 });

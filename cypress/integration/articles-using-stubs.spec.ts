@@ -1,3 +1,5 @@
+import { copyFileSync } from "fs";
+
 describe('Articles using stubs', () => {
   it('stubbing tests using router', () => {
     cy.server();
@@ -46,6 +48,26 @@ describe('Articles using stubs', () => {
   // HINT tag model: {_id: '1', tag:'testing'}
   // BONUS: select a tag by clicking on it and
   // have api / articles / search return 1 article
+  describe('stubbed tests using fixture keyword and alias', () => {
+    beforeEach(() => {
+      cy.server();
+      cy.fixture('tags.json').as('tags.JSON');
+      cy.route('/api/tags','tagsJSON').as('tags');
+      cy.visit('/');
+      cy.wait('@tags');
+  
+    });
+
   it('should display 2 tags', () => {
+    cy.server();
+    cy.route('/api/tags');
+    cy.visit('/');
+    cy.wait('@tags');
+
+    cy.visit('/');
+ 
+
+  });
   });
 });
+
